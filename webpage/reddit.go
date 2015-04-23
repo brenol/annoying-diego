@@ -11,8 +11,9 @@ type RedditPost struct {
 	Data struct {
 		Children []struct {
 			Data struct {
-				Title string `json:"title"`
-				URL   string `json:"url"`
+				IsSelf bool   `json:"is_self"`
+				Title  string `json:"title"`
+				URL    string `json:"url"`
 			}
 		}
 	}

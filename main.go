@@ -27,7 +27,8 @@ func Filter(stories []webpage.YCStory, redditPosts []webpage.RedditPost) []Post 
 
 	for _, post := range redditPosts {
 		for _, p := range post.Data.Children {
-			if filterByTitle(p.Data.Title) && !strings.Contains(p.Data.Title, "x-post from r/") {
+			// we need to ignore x-posts and also self posts (posts made by users asking questions)
+			if filterByTitle(p.Data.Title) && !strings.Contains(p.Data.Title, "x-post from r/") && !p.Data.IsSelf {
 				filteredPosts = append(filteredPosts, Post{p.Data.Title, p.Data.URL})
 			}
 		}
