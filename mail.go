@@ -20,7 +20,7 @@ func sendMail(body string) {
 	mailer := &Mailer{
 		From: os.Getenv("FROM_ADDR"),
 		To:   os.Getenv("TO_ADDR"),
-		Key:  os.Getenv("SMTP_AUTH"),
+		Key:  os.Getenv("MANDRILL_KEY"),
 	}
 
 	mandrillApi, err := gochimp.NewMandrill(mailer.Key)
