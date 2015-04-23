@@ -3,7 +3,6 @@ package webpage
 import (
 	"fmt"
 	"log"
-	"strings"
 	"sync"
 
 	"github.com/PuerkitoBio/goquery"
@@ -52,14 +51,4 @@ func GetYCStories() []YCStory {
 	}()
 	wg.Wait()
 	return stories
-}
-
-func FilterYCStories(stories []YCStory) []YCStory {
-	filteredStories := make([]YCStory, 0)
-	for _, story := range stories {
-		if strings.Contains(story.Title, "Python") || strings.Contains(story.Title, " go ") {
-			filteredStories = append(filteredStories, story)
-		}
-	}
-	return filteredStories
 }

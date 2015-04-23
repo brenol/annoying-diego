@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"strings"
 
 	"github.com/brenol/annoying-diego/webpage"
@@ -13,11 +13,12 @@ type Post struct {
 }
 
 func filterByTitle(title string) bool {
-	return strings.Contains(title, "golang") || strings.Contains(title, " go ")
+	return strings.Contains(title, "golang") || strings.Contains(title, " go ") || strings.HasSuffix(title, " Go") || strings.Contains(title, "python")
 }
 
 func Filter(stories []webpage.YCStory, redditPosts []webpage.RedditPost) []Post {
 	filteredPosts := make([]Post, 0)
+
 	for _, story := range stories {
 		if filterByTitle(story.Title) {
 			filteredPosts = append(filteredPosts, Post{story.Title, story.URL})
@@ -26,7 +27,7 @@ func Filter(stories []webpage.YCStory, redditPosts []webpage.RedditPost) []Post 
 
 	for _, post := range redditPosts {
 		for _, p := range post.Data.Children {
-			if filterByTitle(p.Data.Title) {
+			if filterByTitle(p.Data.Title) && !strings.Contains(p.Data.Title, "x-post from r/") {
 				filteredPosts = append(filteredPosts, Post{p.Data.Title, p.Data.URL})
 			}
 		}
@@ -40,5 +41,9 @@ func main() {
 		webpage.GetYCStories(),
 		webpage.GetPostsFromSubreddits([]string{"programming", "golang"}),
 	)
-	fmt.Println("Posts about golang -> ", posts)
+	if len(posts) == 0 {
+		log.Println("No News about Go found :(")
+		return
+	}
+	sendMail(generateEmailBody(posts))
 }
