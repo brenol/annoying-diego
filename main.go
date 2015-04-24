@@ -13,7 +13,7 @@ type Post struct {
 }
 
 func filterByTitle(title string) bool {
-	return strings.Contains(title, "golang") || strings.Contains(title, " go ") || strings.HasSuffix(title, " Go") || strings.Contains(title, "python")
+	return strings.Contains(title, "golang") || strings.Contains(title, " go ") || strings.HasSuffix(title, " Go")
 }
 
 func Filter(stories []webpage.YCStory, redditPosts []webpage.RedditPost) []Post {

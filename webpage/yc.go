@@ -23,9 +23,8 @@ func GetYCStories() []YCStory {
 
 	for i := 1; i <= 10; i++ {
 		wg.Add(1)
-		go func() {
+		go func(i int) {
 			defer wg.Done()
-
 			url := hackerNewsPage(i)
 
 			document, err := goquery.NewDocument(url)
@@ -39,7 +38,7 @@ func GetYCStories() []YCStory {
 					storiesChan <- YCStory{Title: s.Find("a").Text(), URL: href}
 				}
 			})
-		}()
+		}(i)
 	}
 
 	stories := make([]YCStory, 0)
